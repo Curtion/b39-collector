@@ -1,0 +1,11 @@
+# Name,   Type, SubType, Offset,  Size,    Flags
+# 24KB NVS
+nvs,      data, nvs,     0x9000,  0x6000,
+# 4KB PHY 数据
+phy_init, data, phy,     0xf000,  0x1000,
+# 2MB 应用程序
+factory,  app,  factory, 0x10000, 2M,
+# 4MB 文件系统
+storage,  data, spiffs,  ,        4M,
+# 64KB 崩溃日志
+coredump, data, coredump,,        64K,

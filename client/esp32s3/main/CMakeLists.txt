@@ -6,5 +6,5 @@ idf_component_register(SRCS "main.c"
                             "ws2812b.c"
                             "led_status.c"
                        INCLUDE_DIRS "."
-                       PRIV_REQUIRES usb nvs_flash esp_wifi esp_http_client driver esp_driver_rmt
+                       PRIV_REQUIRES usb nvs_flash esp_wifi esp_http_client esp_driver_gpio esp_driver_rmt
                        )
