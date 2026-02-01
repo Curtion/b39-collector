@@ -11,9 +11,9 @@
 #define EXAMPLE_USB_DEVICE_PID (0x1001)
 #define RX_BUFFER_SIZE (2048)
 
-// WiFi 配置
-#define WIFI_SSID "SukeMeu"
-#define WIFI_PASSWORD "123456789"
+// SmartConfig 配网配置
+#define SMARTCONFIG_TIMEOUT_MS 120000  // 配网超时时间 2 分钟
+#define SMARTCONFIG_TYPE SC_TYPE_ESPTOUCH  // 配网类型
 
 // HTTP 配置
 #define HTTP_URI "https://blog.3gxk.net"
@@ -28,5 +28,10 @@
 #define HTTP_QUEUE_SIZE 5
 #define HTTP_TASK_PRIORITY 5
 #define HTTP_TASK_STACK_SIZE 8192
+
+// GPIO 按键配置
+#define GPIO_BUTTON_PIN 14                    // GPIO14 按键引脚
+#define GPIO_BUTTON_TASK_PRIORITY 4           // 按键任务优先级
+#define GPIO_BUTTON_TASK_STACK_SIZE 4096      // 按键任务栈大小
 
 #endif // CONFIG_H

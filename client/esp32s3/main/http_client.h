@@ -30,11 +30,11 @@ void http_client_init(void);
 void http_request_task(void *arg);
 
 /**
- * @brief 发送数据到 HTTP 队列（中断安全）
+ * @brief 发送数据到 HTTP 队列
  * @param data 要发送的数据
  * @param len 数据长度
  * @return pdTRUE 成功，pdFALSE 失败
  */
-BaseType_t http_client_send_from_isr(const uint8_t *data, size_t len);
+BaseType_t http_client_send(const uint8_t *data, size_t len);
 
 #endif // HTTP_CLIENT_H

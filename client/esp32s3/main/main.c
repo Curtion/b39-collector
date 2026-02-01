@@ -21,6 +21,9 @@
 #include "wifi_manager.h"
 #include "http_client.h"
 #include "usb_cdc.h"
+#include "gpio_button.h"
+#include "ws2812b.h"
+#include "led_status.h"
 
 static const char *TAG = "MAIN";
 
@@ -37,11 +40,26 @@ void app_main(void)
     // 初始化 USB CDC 模块
     usb_cdc_init();
 
-    // 初始化 NVS
-    ESP_ERROR_CHECK(nvs_flash_init());
+    // 初始化 NVS（带错误恢复）
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        ESP_LOGW(TAG, "NVS 分区需要擦除，正在重新初始化...");
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
+    }
+    ESP_ERROR_CHECK(ret);
 
     // 初始化 WiFi 模块
     wifi_manager_init();
+
+    // 初始化 GPIO 按键监听（必须在 WiFi 初始化之后）
+    ESP_ERROR_CHECK(gpio_button_init());
+
+    // 初始化 WS2812B LED（初始化后 LED 为关闭状态）
+    ESP_ERROR_CHECK(ws2812b_init());
+
+    // 初始化 LED 状态指示模块
+    ESP_ERROR_CHECK(led_status_init());
 
     // CDC 设备配置
     const cdc_acm_host_device_config_t dev_config = {

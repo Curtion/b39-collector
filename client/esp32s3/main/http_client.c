@@ -4,6 +4,7 @@
 
 #include "http_client.h"
 #include "wifi_manager.h"
+#include "led_status.h"
 #include "config.h"
 
 #include <string.h>
@@ -23,7 +24,6 @@ void http_request_task(void *arg)
     while (1) {
         if (xQueueReceive(http_request_queue, &req, portMAX_DELAY) == pdTRUE) {
             ESP_LOGI(TAG, "接收到数据: %.*s", req.len, req.data);
-            ESP_LOGI(TAG, "数据已发送到HTTP队列");
 
             // 检查WiFi是否已连接
             if (!wifi_connected) {
@@ -46,6 +46,7 @@ void http_request_task(void *arg)
             esp_http_client_handle_t client = esp_http_client_init(&config);
             if (client == NULL) {
                 ESP_LOGE(TAG, "HTTP客户端初始化失败");
+                led_set_http_error(true);
                 continue;
             }
 
@@ -59,8 +60,12 @@ void http_request_task(void *arg)
             if (err == ESP_OK) {
                 int status_code = esp_http_client_get_status_code(client);
                 ESP_LOGI(TAG, "HTTP请求成功, 状态码: %d", status_code);
+                // HTTP 请求成功时清除错误标志
+                led_set_http_error(false);
             } else {
                 ESP_LOGE(TAG, "HTTP请求失败: %s", esp_err_to_name(err));
+                // HTTP 请求失败时设置 HTTP 错误标志（WiFi正常但HTTP失败会显示黄色）
+                led_set_http_error(true);
             }
 
             // 清理
@@ -69,7 +74,7 @@ void http_request_task(void *arg)
     }
 }
 
-BaseType_t http_client_send_from_isr(const uint8_t *data, size_t len)
+BaseType_t http_client_send(const uint8_t *data, size_t len)
 {
     if (http_request_queue == NULL) {
         return pdFALSE;
@@ -81,11 +86,7 @@ BaseType_t http_client_send_from_isr(const uint8_t *data, size_t len)
     req.data[copy_len] = '\0';
     req.len = copy_len;
 
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    BaseType_t result = xQueueSendFromISR(http_request_queue, &req, &xHigherPriorityTaskWoken);
-    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-
-    return result;
+    return xQueueSend(http_request_queue, &req, 0);
 }
 
 void http_client_init(void)

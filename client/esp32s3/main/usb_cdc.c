@@ -4,6 +4,7 @@
 
 #include "usb_cdc.h"
 #include "http_client.h"
+#include "led_status.h"
 #include "config.h"
 
 #include <string.h>
@@ -51,7 +52,10 @@ bool usb_cdc_handle_rx(const uint8_t *data, size_t data_len, void *arg)
             rx_buffer[rx_buffer_len] = '\0';
 
             // 将数据发送到HTTP队列
-            http_client_send_from_isr(rx_buffer, rx_buffer_len);
+            http_client_send(rx_buffer, rx_buffer_len);
+
+            // 显示数据传输状态（LED 闪烁）
+            led_blink_data_tx(100);
 
             // 重置缓冲区
             rx_buffer_len = 0;
