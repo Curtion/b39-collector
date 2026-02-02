@@ -19,7 +19,7 @@ COPY web/ ./
 RUN pnpm run build
 
 # 构建阶段 2: 构建 Go 后端
-FROM golang:1.24-alpine AS go-builder
+FROM golang:1.25-alpine AS go-builder
 
 WORKDIR /app
 
