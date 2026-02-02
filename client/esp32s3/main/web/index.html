@@ -3,9 +3,388 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>设备配置</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      min-height: 100vh;
+      background: #fff;
+      color: #0f172a;
+      -webkit-font-smoothing: antialiased;
+    }
+    .min-h-screen { min-height: 100vh; }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 8px; }
+    .p-4 { padding: 16px; }
+    .p-6 { padding: 24px; }
+    .pt-0 { padding-top: 0; }
+    .pb-4 { padding-bottom: 16px; }
+    .mt-4 { margin-top: 16px; }
+    .mr-2 { margin-right: 8px; }
+    .ml-2 { margin-left: 8px; }
+    .space-y-1-5 > * + * { margin-top: 6px; }
+    .space-y-2 > * + * { margin-top: 8px; }
+    .space-y-4 > * + * { margin-top: 16px; }
+    .w-full { width: 100%; }
+    .w-8 { width: 32px; }
+    .h-8 { height: 32px; }
+    .w-2 { width: 8px; }
+    .h-2 { height: 8px; }
+    .h-10 { height: 40px; }
+    .max-w-md { max-width: 448px; }
+    .z-50 { z-index: 50; }
+    .fixed { position: fixed; }
+    .top-4 { top: 16px; }
+    .right-4 { right: 16px; }
+    .text-center { text-align: center; }
+    .text-sm { font-size: 14px; }
+    .text-xs { font-size: 12px; }
+    .text-2xl { font-size: 24px; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .leading-none { line-height: 1; }
+    .tracking-tight { letter-spacing: -0.025em; }
+    .rounded-lg { border-radius: 8px; }
+    .rounded-md { border-radius: 6px; }
+    .rounded-xl { border-radius: 12px; }
+    .rounded-full { border-radius: 50%; }
+    .border { border: 1px solid #e2e8f0; }
+    .border-input { border-color: #e2e8f0; }
+    .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    .bg-card { background: #fff; }
+    .bg-primary { background: #0f172a; }
+    .bg-secondary { background: #f1f5f9; }
+    .bg-muted { background: #f1f5f9; }
+    .bg-destructive { background: #ef4444; }
+    .text-primary { color: #0f172a; }
+    .text-primary-foreground { color: #f8fafc; }
+    .text-secondary-foreground { color: #0f172a; }
+    .text-muted-foreground { color: #64748b; }
+    .text-destructive-foreground { color: #f8fafc; }
+    .text-foreground { color: #0f172a; }
+    .bg-background { background: #fff; }
+    .bg-green-500 { background: #22c55e; }
+    .bg-yellow-500 { background: #eab308; }
+    .border-border { border-color: #e2e8f0; }
+    .px-3 { padding-left: 12px; padding-right: 12px; }
+    .px-4 { padding-left: 16px; padding-right: 16px; }
+    .py-2 { padding-top: 8px; padding-bottom: 8px; }
+    .inline-flex { display: inline-flex; }
+    .hidden { display: none; }
+    .transition-colors { transition: background-color 0.15s, color 0.15s, border-color 0.15s; }
+    .cursor-not-allowed { cursor: not-allowed; }
+    .opacity-50 { opacity: 0.5; }
+    .pointer-events-none { pointer-events: none; }
+
+    input[type="text"] {
+      width: 100%;
+      height: 40px;
+      padding: 8px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      background: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    input[type="text"]::placeholder { color: #94a3b8; }
+    input[type="text"]:focus {
+      border-color: #0f172a;
+      box-shadow: 0 0 0 2px rgba(15,23,42,0.1);
+    }
+    input[type="text"]:disabled {
+      background: #f8fafc;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+      outline: none;
+    }
+    button:focus-visible {
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0f172a;
+    }
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .btn-primary {
+      background: #0f172a;
+      color: #f8fafc;
+    }
+    .btn-primary:hover { background: rgba(15,23,42,0.9); }
+
+    .btn-secondary {
+      background: #fff;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+    }
+    .btn-secondary:hover { background: #f1f5f9; }
+
+    .animate-in { animation: animateIn 0.2s ease-out; }
+    @keyframes animateIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .spin { animation: spin 1s linear infinite; }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  
+  <!-- Toast 通知容器 -->
+  <div id="toast-container" style="position: fixed; top: 16px; right: 16px; z-index: 50; display: flex; flex-direction: column; gap: 8px;"></div>
+
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div style="width: 100%; max-width: 448px;">
+      <!-- 卡片 -->
+      <div style="background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+        <!-- 卡片头部 -->
+        <div style="display: flex; flex-direction: column; padding: 24px; padding-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: #0f172a; display: flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f8fafc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </div>
+            <h3 style="font-size: 24px; font-weight: 600; line-height: 1; letter-spacing: -0.025em;">设备配置</h3>
+          </div>
+          <p style="font-size: 14px; color: #64748b; margin-top: 6px;">配置数据上报服务器地址</p>
+        </div>
+
+        <!-- 卡片内容 -->
+        <div style="padding: 24px; padding-top: 0; display: flex; flex-direction: column; gap: 16px;">
+          <!-- HTTP URI 输入框 -->
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label for="http-uri" style="font-size: 14px; font-weight: 500; line-height: 1;">
+              服务器地址
+            </label>
+            <input
+              type="text"
+              id="http-uri"
+              placeholder="https://example.com/api"
+            >
+            <p style="font-size: 12px; color: #64748b;">设备将以此地址POST请求上报数据</p>
+            <div style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+              <p style="font-size: 12px; font-weight: 500; color: #0f172a; margin-bottom: 6px;">POST 数据格式</p>
+              <p style="font-size: 12px; color: #64748b; margin-bottom: 4px;">Content-Type: <code style="background: #e2e8f0; padding: 2px 4px; border-radius: 3px;">application/json</code></p>
+              <pre style="font-size: 11px; color: #334155; background: #f1f5f9; padding: 8px; border-radius: 4px; overflow-x: auto;"><code>{"data":"采集的数据内容"}</code></pre>
+            </div>
+          </div>
+
+          <!-- 状态显示 -->
+          <div style="border-radius: 8px; background: #f1f5f9; padding: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
+              <div id="status-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #64748b;"></div>
+              <span id="status-text" style="color: #64748b;">等待配置...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 卡片底部 -->
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 24px; padding-top: 0;">
+          <button
+            type="button"
+            id="reset-btn"
+            onclick="loadConfig()"
+            class="btn-secondary"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+              <path d="M21 3v5h-5"/>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+              <path d="M8 16H3v5"/>
+            </svg>
+            刷新
+          </button>
+          <button
+            type="button"
+            id="save-btn"
+            onclick="saveConfig()"
+            class="btn-primary"
+          >
+            <span id="save-btn-text">保存配置</span>
+            <svg id="save-btn-spinner" class="spin hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- 页脚信息 -->
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 16px;">
+        ESP32-S3 采集器 · 配置页面
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 显示 Toast 通知
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+
+      const bgColor = type === 'success' ? '#0f172a' : type === 'error' ? '#ef4444' : '#f1f5f9';
+      const textColor = type === 'success' || type === 'error' ? '#f8fafc' : '#0f172a';
+      const icon = type === 'success'
+        ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
+        : type === 'error'
+        ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg>'
+        : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>';
+
+      toast.style.cssText = `animation: animateIn 0.2s ease-out; display: flex; align-items: center; gap: 8px; border-radius: 8px; border: 1px solid #e2e8f0; padding: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); background: ${bgColor}; color: ${textColor};`;
+      toast.innerHTML = `${icon}<span style="font-size: 14px; font-weight: 500;">${message}</span>`;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        toast.style.transition = 'all 0.2s ease-out';
+        setTimeout(() => toast.remove(), 200);
+      }, 3000);
+    }
+
+    // 设置加载状态
+    function setLoading(loading) {
+      const saveBtn = document.getElementById('save-btn');
+      const saveBtnText = document.getElementById('save-btn-text');
+      const saveBtnSpinner = document.getElementById('save-btn-spinner');
+      const resetBtn = document.getElementById('reset-btn');
+      const input = document.getElementById('http-uri');
+      
+      saveBtn.disabled = loading;
+      resetBtn.disabled = loading;
+      input.disabled = loading;
+      
+      if (loading) {
+        saveBtnText.textContent = '保存中...';
+        saveBtnSpinner.classList.remove('hidden');
+      } else {
+        saveBtnText.textContent = '保存配置';
+        saveBtnSpinner.classList.add('hidden');
+      }
+    }
+
+    // 更新状态显示
+    function updateStatus(status, text) {
+      const dot = document.getElementById('status-dot');
+      const statusText = document.getElementById('status-text');
+      
+      const colors = {
+        idle: 'bg-muted-foreground',
+        success: 'bg-green-500',
+        error: 'bg-destructive',
+        pending: 'bg-yellow-500'
+      };
+      
+      dot.className = `w-2 h-2 rounded-full ${colors[status] || colors.idle}`;
+      statusText.textContent = text;
+    }
+
+    // 加载配置
+    async function loadConfig() {
+      try {
+        updateStatus('pending', '加载中...');
+        const response = await fetch('/api/config');
+        
+        if (!response.ok) {
+          throw new Error('获取配置失败');
+        }
+        
+        const data = await response.json();
+        document.getElementById('http-uri').value = data.http_uri || '';
+        
+        if (data.http_uri) {
+          updateStatus('success', '已配置: ' + data.http_uri);
+        } else {
+          updateStatus('idle', '未配置服务器地址');
+        }
+      } catch (error) {
+        console.error('加载配置失败:', error);
+        updateStatus('error', '加载失败: ' + error.message);
+        showToast('加载配置失败: ' + error.message, 'error');
+      }
+    }
+
+    // 保存配置
+    async function saveConfig() {
+      const httpUri = document.getElementById('http-uri').value.trim();
+      
+      // 验证输入
+      if (!httpUri) {
+        showToast('请输入服务器地址', 'error');
+        document.getElementById('http-uri').focus();
+        return;
+      }
+      
+      // 简单的 URL 格式验证
+      if (!httpUri.startsWith('http://') && !httpUri.startsWith('https://')) {
+        showToast('服务器地址必须以 http:// 或 https:// 开头', 'error');
+        document.getElementById('http-uri').focus();
+        return;
+      }
+      
+      setLoading(true);
+      updateStatus('pending', '保存中...');
+      
+      try {
+        const response = await fetch('/api/config', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ http_uri: httpUri }),
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || '保存失败');
+        }
+        
+        const result = await response.json();
+        showToast(result.message || '配置已保存');
+        updateStatus('success', '已配置: ' + httpUri);
+      } catch (error) {
+        console.error('保存配置失败:', error);
+        showToast('保存失败: ' + error.message, 'error');
+        updateStatus('error', '保存失败');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    // 页面加载时自动获取配置
+    document.addEventListener('DOMContentLoaded', loadConfig);
+
+    // 监听回车键保存
+    document.getElementById('http-uri').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        saveConfig();
+      }
+    });
+  </script>
 </body>
 </html>

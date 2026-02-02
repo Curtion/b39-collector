@@ -36,6 +36,12 @@ void http_request_task(void *arg)
             const char *current_uri = http_server_get_uri();
             ESP_LOGI(TAG, "HTTP任务处理数据: %.*s, 目标URI: %s", req.len, req.data, current_uri);
 
+            // 检查是否已配置目标URI
+            if (current_uri == NULL || strlen(current_uri) == 0) {
+                ESP_LOGW(TAG, "HTTP URI 未配置, 跳过HTTP请求");
+                continue;
+            }
+
             // 构建POST数据
             snprintf(post_data, sizeof(post_data), "{\"data\":\"%.*s\"}", (int)req.len, req.data);
 
