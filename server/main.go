@@ -9,6 +9,7 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -68,7 +69,11 @@ func main() {
 // initDB 初始化数据库
 func initDB() error {
 	var err error
-	db, err = gorm.Open(sqlite.Open("sensor.db"), &gorm.Config{
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		dbPath = "/data/sensor.db"
+	}
+	db, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Silent),
 	})
 	if err != nil {

@@ -1,0 +1,30 @@
+# 前端
+web/node_modules
+web/dist
+web/.git
+web/.vscode
+
+# 后端
+*.db
+*.exe
+b39-server
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# 日志
+*.log
+
+# Docker
+Dockerfile
+.dockerignore
+
+# 文档
+*.md
