@@ -14,4 +14,16 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('echarts') || id.includes('vue-echarts')) {
+            return 'echarts'
+          }
+        },
+      },
+    },
+  },
 })
