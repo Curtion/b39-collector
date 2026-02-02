@@ -1,17 +1,28 @@
 package main
 
 import (
+	"embed"
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/fs"
 	"log"
 	"net/http"
 )
 
+//go:embed all:web/dist
+var webDist embed.FS
+
 func main() {
+	distFS, err := fs.Sub(webDist, "web/dist")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	http.HandleFunc("/api/data", handleData)
-	
-	fmt.Println("Server starting on :8080")
+	http.Handle("/", http.FileServer(http.FS(distFS)))
+
+	log.Println("Starting server on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
