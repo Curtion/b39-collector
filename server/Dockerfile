@@ -23,9 +23,6 @@ FROM golang:1.25-alpine AS go-builder
 
 WORKDIR /app
 
-# 安装构建依赖
-RUN apk add --no-cache gcc musl-dev sqlite-dev
-
 # 复制 go mod 文件
 COPY go.mod go.sum ./
 
@@ -38,8 +35,8 @@ COPY main.go ./
 # 从前端构建阶段复制 dist 目录
 COPY --from=web-builder /app/web/dist ./web/dist
 
-# 构建 Go 应用
-RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o b39-server .
+# 构建 Go 应用 (纯 Go 实现，无需 CGO)
+RUN CGO_ENABLED=0 GOOS=linux go build -o b39-server .
 
 # 最终镜像: 最小化运行环境
 FROM alpine:latest
