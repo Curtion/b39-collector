@@ -15,8 +15,8 @@
 #define SMARTCONFIG_TIMEOUT_MS 120000  // 配网超时时间 2 分钟
 #define SMARTCONFIG_TYPE SC_TYPE_ESPTOUCH  // 配网类型
 
-// HTTP 配置
-#define HTTP_URI "https://blog.3gxk.net"
+// HTTP 服务器配置
+#define HTTP_SERVER_PORT 80
 
 // WiFi 重连延迟（毫秒）
 #define WIFI_RECONNECT_DELAY_MS 3000

@@ -3,6 +3,7 @@
  */
 
 #include "http_client.h"
+#include "http_server.h"
 #include "wifi_manager.h"
 #include "led_status.h"
 #include "config.h"
@@ -31,14 +32,16 @@ void http_request_task(void *arg)
                 continue;
             }
 
-            ESP_LOGI(TAG, "HTTP任务处理数据: %.*s", req.len, req.data);
+            // 获取当前配置的 HTTP URI
+            const char *current_uri = http_server_get_uri();
+            ESP_LOGI(TAG, "HTTP任务处理数据: %.*s, 目标URI: %s", req.len, req.data, current_uri);
 
             // 构建POST数据
             snprintf(post_data, sizeof(post_data), "{\"data\":\"%.*s\"}", (int)req.len, req.data);
 
             // 配置HTTP客户端
             esp_http_client_config_t config = {
-                .url = HTTP_URI,
+                .url = current_uri,
                 .method = HTTP_METHOD_POST,
                 .timeout_ms = 5000,
             };

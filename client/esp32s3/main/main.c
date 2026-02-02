@@ -20,6 +20,7 @@
 #include "config.h"
 #include "wifi_manager.h"
 #include "http_client.h"
+#include "http_server.h"
 #include "usb_cdc.h"
 #include "gpio_button.h"
 #include "ws2812b.h"
@@ -51,6 +52,9 @@ void app_main(void)
 
     // 初始化 WiFi 模块
     wifi_manager_init();
+
+    // 初始化 HTTP 服务器（提供 Web 配置界面和 API）
+    ESP_ERROR_CHECK(http_server_init());
 
     // 初始化 GPIO 按键监听（必须在 WiFi 初始化之后）
     ESP_ERROR_CHECK(gpio_button_init());
