@@ -6,11 +6,11 @@
 
 # 客户端
 
-- 通过外挂一个ESP32S3实现数据采集, 详见 [client/esp32s3](client/esp32s3/README.md)
+- 通过外挂一个ESP32S3实现数据采集, 详见 [client/esp32s3](client/esp32s3/)
 - ~~通过PC实现数据采集, 详见 [client/pc](client/pc/README.md)~~(暂未实现)
 
 # 服务端
 
-接受数据并存储, 提供查询和展示功能, 详见 [server](server/README.md)
+接受数据并存储, 提供查询和展示功能, 详见 [server](server/)
 
 你也可以无需使用该服务端, 而是在客户端中配置数据上报的地址, 实现接入`Home Assistant`等其他平台。
